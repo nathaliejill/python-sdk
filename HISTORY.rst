@@ -8,5 +8,5 @@ History
 
 * First release on PyPI.
 * Includes:
-** iframe widget
-** div widget
+    * iframe widget
+    * div widget
