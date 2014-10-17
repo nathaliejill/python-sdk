@@ -20,4 +20,4 @@ Xapo's bitcoin sdk & tools
 Features
 --------
 
-* TODO
+* *Iframe* and *Div* HTML widgets

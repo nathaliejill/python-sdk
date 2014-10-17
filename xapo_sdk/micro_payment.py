@@ -150,14 +150,14 @@ class XapoMicroPaymentSDK:
         #      of the "request". In this implementation we decoupled the
         #      request from the config object for grater flexibility
         widget_url = self.__build_url(config, pay_type)
-        res = """
+        snippet = """
                 <iframe id="tipButtonFrame" scrolling="no" frameborder="0"
                     style="border:none; overflow:hidden; height:22px;"
-                    allowTransparency="true" src="{}">
+                    allowTransparency="true" src="{url}">
                 </iframe>
-              """.format(widget_url)
+              """.format(url=widget_url)
 
-        return textwrap.dedent(res)
+        return textwrap.dedent(snippet)
 
     def build_div_widget(self, config, pay_type):
         """ Build div HTML snippet in order to be embedded in apps.
@@ -192,7 +192,7 @@ class XapoMicroPaymentSDK:
         <BLANKLINE>
         """
         widget_url = self.__build_url(config, pay_type)
-        res = r"""
+        snippet = r"""
                 <div id="tipButtonDiv" class="tipButtonDiv"></div>
                 <div id="tipButtonPopup" class="tipButtonPopup"></div>
                 <script>
@@ -202,7 +202,7 @@ class XapoMicroPaymentSDK:
                 </script>
               """.format(url=widget_url)
 
-        return textwrap.dedent(res)
+        return textwrap.dedent(snippet)
 
 if __name__ == '__main__':
     import doctest
