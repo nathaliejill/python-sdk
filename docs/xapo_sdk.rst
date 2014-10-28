@@ -4,18 +4,18 @@ xapo_sdk package
 Submodules
 ----------
 
-xapo_sdk.micro_payment module
------------------------------
+xapo_sdk.xapo_tools module
+--------------------------
 
-.. automodule:: xapo_sdk.micro_payment
+.. automodule:: xapo_sdk.xapo_tools
     :members:
     :undoc-members:
     :show-inheritance:
 
-xapo_sdk.xapo_sdk module
-------------------------
+xapo_sdk.xapo_utils module
+--------------------------
 
-.. automodule:: xapo_sdk.xapo_sdk
+.. automodule:: xapo_sdk.xapo_utils
     :members:
     :undoc-members:
     :show-inheritance:
