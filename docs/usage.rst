@@ -119,10 +119,10 @@ See the example results in the :ref:`widgets-gallery`.
 Widgets Gallery
 ^^^^^^^^^^^^^^^
 
-.. _a link: http://developers.xapo.com/images/payment_widget/donate_button.png
+.. image:: http://developers.xapo.com/images/payment_widget/donate_button.png
 
-.. _a link: http://developers.xapo.com/images/payment_widget/mpayment1.png
+.. image:: http://developers.xapo.com/images/payment_widget/mpayment1.png
 
-.. _a link: http://developers.xapo.com/images/payment_widget/mpayment2.png
+.. image:: http://developers.xapo.com/images/payment_widget/mpayment2.png
 
-.. _a link: http://developers.xapo.com/images/payment_widget/mpayment3.png
+.. image:: http://developers.xapo.com/images/payment_widget/mpayment3.png
