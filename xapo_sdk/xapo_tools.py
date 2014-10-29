@@ -11,7 +11,7 @@ with hooks():
 import time
 import textwrap
 import json
-import xapo_utils
+from xapo_sdk import xapo_utils
 
 
 class MicroPaymentConfig:
