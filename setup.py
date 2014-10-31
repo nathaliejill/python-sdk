@@ -26,7 +26,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author='Federico Repond',
     author_email='federico.repond@leapsight.com',
-    url='https://github.com/frepond/xapo_sdk',
+    url='https://github.com/xapo/python-sdk',
     packages=[
         'xapo_sdk',
     ],

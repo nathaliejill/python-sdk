@@ -18,7 +18,7 @@ This is the Python version of the Xapo's Widget Tools. These tools allow you (Th
 
 
 * Free software: BSD license
-* Documentation: https://xapo_sdk.readthedocs.org.
+* Documentation: http://xapo-sdk.readthedocs.org.
 
 
 Features

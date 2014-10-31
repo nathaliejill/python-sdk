@@ -28,11 +28,13 @@ IFrame Widget
 
 .. code:: python
 
-    xmp = MicroPayment(
+    from xapo_sdk import xapo_tools
+
+    xmp = xapo_tools.MicroPayment(
         "http://dev.xapo.com:8089/pay_button/show",
         "b91014cc28c94841",
         "c533a6e606fb62ccb13e8baf8a95cbdc")
-    mpc = MicroPaymentConfig(
+    mpc = xapo_tools.MicroPaymentConfig(
         sender_user_email="sender@xapo.com",
         sender_user_cellphone="+5491112341234",
         receiver_user_id="r0210",
