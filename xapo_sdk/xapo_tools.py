@@ -23,17 +23,24 @@ class MicroPaymentConfig:
 
     Attributes:
         sender_user_id (str): The id of the user sending the payment.
+
         sender_user_email (str, optional): The email of the user sending
-            the payment.
-        sender_user_cellphone (str, optional): The celphone number of the user
-            sending the payment.
+        the payment.
+
+        sender_user_cellphone (str, optional): The celphone number of the
+        user sending the payment.
+
         receiver_user_id (str): The id of the user receiving the payment.
+
         receiver_user_email (str): The email of the user receiving the payment.
+
         pay_object_id (str): A payment identifier in the TPA context.
+
         amount_BIT (float, optional): The amount of bitcoins to be payed by the
-            widget. If not specified here, it must be entered on payment basis.
+        widget. If not specified here, it must be entered on payment basis.
+
         pay_type (str): The string representing the type of operation
-            ("Tip", "Pay", "Deposit" or "Donate").
+        ("Tip", "Pay", "Deposit" or "Donate").
     """
     def __init__(self, sender_user_id="", sender_user_email="",
                  sender_user_cellphone="", receiver_user_id="",
@@ -58,24 +65,37 @@ class MicroPayment:
     web page for doing micro payments though a payment button.
 
     Attributes:
-        service_url: The endpoint URL that returns the payment widget.
-        app_id: The id of the TPA for which the widget will be created.
-        app_secret: The TPA secret used to encrypt widget configuration.
+        service_url (str): The endpoint URL that returns the payment widget.
+
+        app_id (str, optional): The id of the TPA for which the widget will
+        be created.
+
+        app_secret (str, optional): The TPA secret used to encrypt widget
+        configuration.
     """
 
-    def __init__(self, service_url, app_id, app_secret):
+    def __init__(self, service_url, app_id=None, app_secret=None):
         self.service_url = service_url
         self.app_id = app_id
         self.app_secret = app_secret
 
     def __build_url(self, config):
         json_config = json.dumps(config.__dict__)
-        encrypted_config = xapo_utils.encrypt(json_config, self.app_secret)
 
-        query = {"app_id": self.app_id, "button_request": encrypted_config,
-                 "customization": json.dumps({"button_text": config.pay_type})}
+        if (self.app_id is None or self.app_secret is None):
+            query = { 
+                "payload": json_config,
+                "customization": json.dumps({"button_text": config.pay_type})
+            }
+            query_str = urlencode(query)
+        else:
+            encrypted_config = xapo_utils.encrypt(json_config, self.app_secret)
+            query = {
+                "app_id": self.app_id, "button_request": encrypted_config,
+                "customization": json.dumps({"button_text": config.pay_type})
+            }
+
         query_str = urlencode(query)
-
         widget_url = self.service_url + "?" + query_str
 
         return widget_url
@@ -84,30 +104,11 @@ class MicroPayment:
         """ Build an iframe HTML snippet in order to be embedded in apps.
 
         Args:
-            config (MicroPaymentConfig): The button configuration options.
-                See @MicroPaymentConfig.
+            config (MicroPaymentConfig): The button configuration options. 
+            See @MicroPaymentConfig.
 
         Returns:
-            string: the iframe HTML snippet ot be embedded in a page.
-
-        Example:
-        >>> xmp = MicroPayment(
-        ... "http://dev.xapo.com:8089/pay_button/show",
-        ... "b91014cc28c94841",
-        ... "c533a6e606fb62ccb13e8baf8a95cbdc")
-        >>> mpc = MicroPaymentConfig(
-        ... sender_user_email="sender@xapo.com",
-        ... sender_user_cellphone="+5491112341234",
-        ... receiver_user_id="r0210",
-        ... receiver_user_email="fernando.taboada@xapo.com",
-        ... pay_object_id="to0210",
-        ... amount_BIT=0.01,
-        ... pay_type = "Tip")
-        >>> iframe = xmp.build_iframe_widget(mpc)
-        >>> print(iframe) # doctest: +ELLIPSIS
-        <BLANKLINE>
-        <iframe...</iframe>
-        <BLANKLINE>
+            str: the iframe HTML snippet ot be embedded in a page.
         """
         widget_url = self.__build_url(config)
         snippet = """
@@ -124,31 +125,10 @@ class MicroPayment:
 
         Args:
             config (MicroPaymentConfig): The button configuration options.
-                See @MicroPaymentConfig.
+            See @MicroPaymentConfig.
 
         Returns:
-            string: the div HTML snippet ot be embedded in a page.
-
-        Example:
-        >>> xmp = MicroPayment(
-        ... "http://dev.xapo.com:8089/pay_button/show",
-        ... "b91014cc28c94841",
-        ... "c533a6e606fb62ccb13e8baf8a95cbdc")
-        >>> mpc = MicroPaymentConfig(
-        ... sender_user_email="sender@xapo.com",
-        ... sender_user_cellphone="+5491112341234",
-        ... receiver_user_id="r0210",
-        ... receiver_user_email="fernando.taboada@xapo.com",
-        ... pay_object_id="to0210",
-        ... amount_BIT=0.01,
-        ... pay_type = "Donate")
-        >>> div = xmp.build_div_widget(mpc)
-        >>> print(div) # doctest: +ELLIPSIS
-        <BLANKLINE>
-        <div id="tipButtonDiv" class="tipButtonDiv"></div>
-        <div id="tipButtonPopup" class="tipButtonPopup"></div>
-        <script>...</script>
-        <BLANKLINE>
+            str: the div HTML snippet ot be embedded in a page.
         """
         widget_url = self.__build_url(config)
         snippet = r"""
@@ -162,7 +142,3 @@ class MicroPayment:
               """.format(url=widget_url)
 
         return textwrap.dedent(snippet)
-
-if __name__ == '__main__':
-    import doctest
-    doctest.testmod(verbose=True)
