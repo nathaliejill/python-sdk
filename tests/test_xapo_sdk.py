@@ -54,14 +54,13 @@ gjV/sbkB7LZ2ShWFIBJRQ=='
             receiver_user_email="fernando.taboada@xapo.com",
             pay_object_id="to0210",
             amount_BIT=0.01,
-            pay_type = "Tip")
+            pay_type="Tip")
         iframe = self.mp.build_iframe_widget(mpc)
+        regex = r'\n<iframe(.*)button_request(.*)>(.*)</iframe>\n'
 
         print(iframe)
-
-        self.assertIsNotNone(
-            re.match(r'\n<iframe(.*)button_request(.*)>(.*)</iframe>\n',
-                     iframe, re.MULTILINE | re.DOTALL))
+        self.assertNotEqual(None,
+                            re.match(regex, iframe, re.MULTILINE | re.DOTALL))
 
     def test_build_iframe_widget_notpa(self):
         mpc = xapo_tools.MicroPaymentConfig(
@@ -71,14 +70,13 @@ gjV/sbkB7LZ2ShWFIBJRQ=='
             receiver_user_email="fernando.taboada@xapo.com",
             pay_object_id="to0210",
             amount_BIT=0.01,
-            pay_type = "Tip")
+            pay_type="Tip")
         iframe = self.mp_notpa.build_iframe_widget(mpc)
+        regex = r'\n<iframe(.*)payload(.*)>(.*)</iframe>\n'
 
         print(iframe)
-
-        self.assertIsNotNone(
-            re.match(r'\n<iframe(.*)payload(.*)>(.*)</iframe>\n',
-                     iframe, re.MULTILINE | re.DOTALL))
+        self.assertNotEqual(None,
+                            re.match(regex, iframe, re.MULTILINE | re.DOTALL))
 
     def test_build_div_widget(self):
         mpc = xapo_tools.MicroPaymentConfig(
@@ -88,17 +86,16 @@ gjV/sbkB7LZ2ShWFIBJRQ=='
             receiver_user_email="fernando.taboada@xapo.com",
             pay_object_id="to0210",
             amount_BIT=0.01,
-            pay_type = "Donate")
+            pay_type="Donate")
         div = self.mp.build_div_widget(mpc)
-
-        print(div)
-
         regex = r"""
 <div id="tipButtonDiv" class="tipButtonDiv"></div>
 <div id="tipButtonPopup" class="tipButtonPopup"></div>
 <script>(.*)button_request(.*)</script>
 """
-        self.assertIsNotNone(re.match(regex, div, re.MULTILINE | re.DOTALL))
+        print(div)
+        self.assertNotEqual(None, 
+                            re.match(regex, div, re.MULTILINE | re.DOTALL))
 
     def test_build_div_widget_notpa(self):
         mpc = xapo_tools.MicroPaymentConfig(
@@ -108,17 +105,17 @@ gjV/sbkB7LZ2ShWFIBJRQ=='
             receiver_user_email="fernando.taboada@xapo.com",
             pay_object_id="to0210",
             amount_BIT=0.01,
-            pay_type = "Donate")
+            pay_type="Donate")
         div = self.mp_notpa.build_div_widget(mpc)
-
-        print(div)
-
         regex = r"""
 <div id="tipButtonDiv" class="tipButtonDiv"></div>
 <div id="tipButtonPopup" class="tipButtonPopup"></div>
 <script>(.*)payload(.*)</script>
 """
-        self.assertIsNotNone(re.match(regex, div, re.MULTILINE | re.DOTALL))
+
+        print(div)
+        self.assertNotEqual(None, 
+                            re.match(regex, div, re.MULTILINE | re.DOTALL))
 
     def tearDown(self):
         pass
