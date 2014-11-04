@@ -22,7 +22,8 @@ class TestXapo_tools(unittest.TestCase):
                                 'c533a6e606fb62ccb13e8baf8a95cbdc')
 
     def test_credit(self):
-        res = self.api.credit(to='sample@xapo.com', amount=0.5,
+        res = self.api.credit(to='sample@xapo.com', amount=1,
+                              currency=xapo_api.Currency.SAT,
                               comments='Sample deposit',
                               request_id=uuid.uuid1().hex)
 
