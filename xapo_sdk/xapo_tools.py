@@ -14,6 +14,14 @@ import json
 from xapo_sdk import xapo_utils
 
 
+class PaymentType:
+    NONE = ''
+    TIP = 'Tip'
+    DEPOSIT = 'Deposit'
+    PAY = 'Pay'
+    DONATE = 'Donate'
+
+
 class MicroPaymentConfig:
     """ Micro payment button configuration options.
 
@@ -45,7 +53,8 @@ class MicroPaymentConfig:
     def __init__(self, sender_user_id="", sender_user_email="",
                  sender_user_cellphone="", receiver_user_id="",
                  receiver_user_email="", pay_object_id="", amount_BIT=0,
-                 timestamp=int(round(time.time() * 1000)), pay_type=""):
+                 timestamp=int(round(time.time() * 1000)),
+                 pay_type=PaymentType.NONE):
         self.sender_user_id = sender_user_id
         self.sender_user_email = sender_user_email
         self.sender_user_cellphone = sender_user_cellphone
@@ -83,13 +92,14 @@ class MicroPayment:
         json_config = json.dumps(config.__dict__)
 
         if (self.app_id is None or self.app_secret is None):
-            query = { 
+            query = {
                 "payload": json_config,
                 "customization": json.dumps({"button_text": config.pay_type})
             }
             query_str = urlencode(query)
         else:
-            encrypted_config = xapo_utils.encrypt(json_config, self.app_secret)
+            encrypted_config = xapo_utils.encrypt(json_config, self.app_secret,
+                                                  xapo_utils.pkcs7_padding)
             query = {
                 "app_id": self.app_id, "button_request": encrypted_config,
                 "customization": json.dumps({"button_text": config.pay_type})
@@ -104,7 +114,7 @@ class MicroPayment:
         """ Build an iframe HTML snippet in order to be embedded in apps.
 
         Args:
-            config (MicroPaymentConfig): The button configuration options. 
+            config (MicroPaymentConfig): The button configuration options.
             See @MicroPaymentConfig.
 
         Returns:

@@ -3,6 +3,12 @@
 History
 -------
 
+0.2.1 (2014-11-04)
+---------------------
+
+* Added xapo_api module, including the credit api v0 (this is about to change soon in the incoming v1 api).
+* Introduced xapo_tool.PaymentType constants.
+
 0.2.0 (2014-11-01)
 ---------------------
 

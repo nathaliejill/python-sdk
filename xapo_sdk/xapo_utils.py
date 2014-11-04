@@ -6,7 +6,7 @@ import base64
 from Crypto.Cipher import AES
 
 
-def _pkcs7_padding(bytestring, k=16):
+def pkcs7_padding(bytestring, k=16):
     """ Pad an input bytestring according to PKCS#7.
 
     Args:
@@ -19,10 +19,18 @@ def _pkcs7_padding(bytestring, k=16):
     """
     l = len(bytestring)
     val = k - (l % k)
+
     return bytestring + bytearray([val] * val).decode()
 
 
-def encrypt(payload, app_secret):
+def zero_padding(bytestring, k=16):
+    l = len(bytestring)
+    val = k - (l % k)
+
+    return bytestring + bytearray([0] * val).decode()
+
+
+def encrypt(payload, app_secret, padding=zero_padding):
     """ Payload encrypting function.
 
     Pad and encrypt the payload in order to call XAPO Bitcoin API.
@@ -36,7 +44,7 @@ def encrypt(payload, app_secret):
         str: A string with the encrypted and base64 encoded payload.
     """
     cipher = AES.new(key=app_secret, mode=AES.MODE_ECB)
-    padded_payload = _pkcs7_padding(payload)
+    padded_payload = padding(payload)
     encrypted_payload = cipher.encrypt(padded_payload)
     encoded_payload = base64.b64encode(encrypted_payload)
 

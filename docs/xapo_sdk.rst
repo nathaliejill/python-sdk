@@ -4,6 +4,14 @@ xapo_sdk package
 Submodules
 ----------
 
+xapo_sdk.xapo_api module
+------------------------
+
+.. automodule:: xapo_sdk.xapo_api
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 xapo_sdk.xapo_tools module
 --------------------------
 

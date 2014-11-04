@@ -258,7 +258,7 @@ texinfo_documents = [
      u'Xapo SDK & Tools Documentation',
      u'Federico Repond',
      'xapo_sdk',
-     'One line description of project.',
+     'This is the Python version of the Xapo\'s Widget Tools',
      'Miscellaneous'),
 ]
 
