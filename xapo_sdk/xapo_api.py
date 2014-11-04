@@ -21,7 +21,7 @@ class API:
     __app_id = None
     __app_secret = None
 
-    __credit_resource = "/credit"
+    __credit_resource = "/credit/"
 
     def __init__(self, service_url, app_id, app_secret):
         self.__service_url = service_url
