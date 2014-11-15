@@ -17,7 +17,7 @@ from xapo_sdk import xapo_api
 class TestXapo_tools(unittest.TestCase):
 
     def setUp(self):
-        self.api = xapo_api.API('http://dev.xapo.com/api/v1',
+        self.api = xapo_api.API('https://api.xapo.com/v1',
                                 'b91014cc28c94841',
                                 'c533a6e606fb62ccb13e8baf8a95cbdc')
 

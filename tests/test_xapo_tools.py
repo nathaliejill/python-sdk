@@ -19,11 +19,11 @@ class TestXapo_tools(unittest.TestCase):
 
     def setUp(self):
         self.mp = xapo_tools.MicroPayment(
-            "http://dev.xapo.com:8089/pay_button/show",
+            "https://mpayment.xapo.com/pay_button/show",
             "b91014cc28c94841",
             "c533a6e606fb62ccb13e8baf8a95cbdc")
         self.mp_notpa = xapo_tools.MicroPayment(
-            "http://dev.xapo.com:8089/pay_button/show")
+            "https://mpayment.xapo.com/pay_button/show")
 
     def test_build_iframe_widget(self):
         mpc = xapo_tools.MicroPaymentConfig(
