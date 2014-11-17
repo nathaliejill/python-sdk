@@ -3,6 +3,11 @@
 History
 -------
 
+0.2.2 (2014-11-14)
+---------------------
+
+* Added customization options and callbacks to Xapo micro payment tool.
+
 0.2.1 (2014-11-04)
 ---------------------
 

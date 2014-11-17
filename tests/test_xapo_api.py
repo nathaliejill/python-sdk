@@ -13,13 +13,16 @@ import unittest
 import uuid
 from xapo_sdk import xapo_api
 
+TEST = False
 
+
+# TODO set your credentials ans TEST to True
+@unittest.skipIf(not TEST, "Set your credentials and TEST to True")
 class TestXapo_tools(unittest.TestCase):
-
     def setUp(self):
         self.api = xapo_api.API('https://api.xapo.com/v1',
-                                'b91014cc28c94841',
-                                'c533a6e606fb62ccb13e8baf8a95cbdc')
+                                'your app id',
+                                'your app secret')
 
     def test_credit(self):
         res = self.api.credit(to='sample@xapo.com', amount=1,

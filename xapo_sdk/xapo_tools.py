@@ -20,6 +20,7 @@ class PaymentType:
     DEPOSIT = 'Deposit'
     PAY = 'Pay'
     DONATE = 'Donate'
+    OAUTH = 'Oauth'
 
 
 class MicroPaymentConfig:
@@ -49,12 +50,29 @@ class MicroPaymentConfig:
 
         pay_type (str): The string representing the type of operation
         ("Tip", "Pay", "Deposit" or "Donate").
+
+        reference_code (str, optional): A custom code to be tracked by the
+        TPA. It's sent back to the TPA in the specified callback. It could be
+        used also to search with the micro payments query API.
+
+        end_mpayment_uri (str, optional): The callback URL to notify a
+        successful micro payment. The callback will be called with parameters
+        "reference_code" and "request_UID".
+
+        end_mpayment_redirect_uri (str, optional): An URL to be redirected to
+        after a successful micro payment.
+
+        redirect_uri (str, optional): redirect URL after a successful OAuth 
+        flow. The URL must accept a "code" parameter if access is granted or
+        "error" and "error_description" in case of denial.
     """
     def __init__(self, sender_user_id="", sender_user_email="",
                  sender_user_cellphone="", receiver_user_id="",
                  receiver_user_email="", pay_object_id="", amount_BIT=0,
                  timestamp=int(round(time.time() * 1000)),
-                 pay_type=PaymentType.NONE):
+                 pay_type=PaymentType.NONE, reference_code="", 
+                 end_mpayment_uri="", end_mpayment_redirect_uri="",
+                 redirect_uri=""):
         self.sender_user_id = sender_user_id
         self.sender_user_email = sender_user_email
         self.sender_user_cellphone = sender_user_cellphone
@@ -64,6 +82,35 @@ class MicroPaymentConfig:
         self.amount_BIT = amount_BIT
         self.timestamp = timestamp
         self.pay_type = pay_type
+        self.reference_code = reference_code
+        self.end_mpayment_uri = end_mpayment_uri
+        self.end_mpayment_redirect_uri = end_mpayment_redirect_uri
+        self.redirect_uri = redirect_uri
+
+
+class MicroPaymentCustomization:
+    """ Micro payment button configuration options.
+
+    This function is intended to be a helper for creating empty micro
+    payments buttons customization but also serves for documenting. A
+    hash with the intended fields would give the same results.
+
+    Attributes:
+        login_cellphone_header_title+ (str, optional): Text to appear in the
+        login screen. Default: "Support content creators by sending them bits.
+        New users receive 50 bits to get started!"
+
+        predefined_pay_values+ (str, optional): A string of comma separated
+        amount values, e.g. "1,5,10".
+
+        button_css+ (str, optional): optional CSS button customization
+        ("red" | "grey").
+    """
+    def __init__(self, login_cellphone_header_title="",
+                 predefined_pay_values="", button_css=""):
+        self.login_cellphone_header_title = login_cellphone_header_title
+        self.predefined_pay_values = predefined_pay_values
+        self.button_css = button_css
 
 
 class MicroPayment:
@@ -88,21 +135,22 @@ class MicroPayment:
         self.app_id = app_id
         self.app_secret = app_secret
 
-    def __build_url(self, config):
+    def __build_url(self, config, customization):
         json_config = json.dumps(config.__dict__)
 
         if (self.app_id is None or self.app_secret is None):
             query = {
                 "payload": json_config,
-                "customization": json.dumps({"button_text": config.pay_type})
+                "customization": json.dumps(customization.__dict__)
             }
             query_str = urlencode(query)
         else:
             encrypted_config = xapo_utils.encrypt(json_config, self.app_secret,
                                                   xapo_utils.pkcs7_padding)
             query = {
-                "app_id": self.app_id, "button_request": encrypted_config,
-                "customization": json.dumps({"button_text": config.pay_type})
+                "app_id": self.app_id,
+                "button_request": encrypted_config,
+                "customization": json.dumps(customization.__dict__)
             }
 
         query_str = urlencode(query)
@@ -110,7 +158,7 @@ class MicroPayment:
 
         return widget_url
 
-    def build_iframe_widget(self, config):
+    def build_iframe_widget(self, config, customization):
         """ Build an iframe HTML snippet in order to be embedded in apps.
 
         Args:
@@ -120,7 +168,7 @@ class MicroPayment:
         Returns:
             str: the iframe HTML snippet ot be embedded in a page.
         """
-        widget_url = self.__build_url(config)
+        widget_url = self.__build_url(config, customization)
         snippet = """
                 <iframe id="tipButtonFrame" scrolling="no" frameborder="0"
                     style="border:none; overflow:hidden; height:22px;"
@@ -130,7 +178,7 @@ class MicroPayment:
 
         return textwrap.dedent(snippet)
 
-    def build_div_widget(self, config):
+    def build_div_widget(self, config, customization):
         """ Build div HTML snippet in order to be embedded in apps.
 
         Args:
@@ -140,7 +188,7 @@ class MicroPayment:
         Returns:
             str: the div HTML snippet ot be embedded in a page.
         """
-        widget_url = self.__build_url(config)
+        widget_url = self.__build_url(config, customization)
         snippet = r"""
                 <div id="tipButtonDiv" class="tipButtonDiv"></div>
                 <div id="tipButtonPopup" class="tipButtonPopup"></div>
