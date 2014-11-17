@@ -21,7 +21,7 @@ test_requirements = [
 
 setup(
     name='xapo_sdk',
-    version='0.2.1',
+    version='0.2.2',
     description='Xapo bitcoin sdk & tools',
     long_description=readme + '\n\n' + history,
     author='Federico Repond',
