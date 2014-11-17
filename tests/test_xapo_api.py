@@ -8,7 +8,7 @@ test_xapo_api
 Tests for `xapo_api` module.
 """
 
-import unittest
+import unittest2
 
 import uuid
 from xapo_sdk import xapo_api
@@ -17,8 +17,8 @@ TEST = False
 
 
 # TODO set your credentials ans TEST to True
-@unittest.skipIf(not TEST, "Set your credentials and TEST to True")
-class TestXapo_tools(unittest.TestCase):
+@unittest2.skipIf(not TEST, "Set your credentials and TEST to True")
+class TestXapo_tools(unittest2.TestCase):
     def setUp(self):
         self.api = xapo_api.API('https://api.xapo.com/v1',
                                 'your app id',

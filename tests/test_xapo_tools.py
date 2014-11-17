@@ -8,7 +8,7 @@ test_xapo_tools
 Tests for `xapo_tools` module.
 """
 
-import unittest
+import unittest2
 
 from xapo_sdk import xapo_tools
 from xapo_sdk.xapo_tools import PaymentType
@@ -18,8 +18,8 @@ TEST = False
 
 
 # TODO set your credentials ans TEST to True
-@unittest.skipIf(not TEST, "Set your credentials and TEST to True")
-class TestXapo_tools(unittest.TestCase):
+@unittest2.skipIf(not TEST, "Set your credentials and TEST to True")
+class TestXapo_tools(unittest2.TestCase):
 
     def setUp(self):
         self.mp = xapo_tools.MicroPayment(
