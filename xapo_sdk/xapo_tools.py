@@ -16,11 +16,11 @@ from xapo_sdk import xapo_utils
 
 class PaymentType:
     NONE = ''
-    TIP = 'Tip'
-    DEPOSIT = 'Deposit'
-    PAY = 'Pay'
-    DONATE = 'Donate'
-    OAUTH = 'Oauth'
+    TIP = 'tip'
+    DEPOSIT = 'deposit'
+    PAY = 'pay'
+    DONATE = 'donate'
+    OAUTH = 'oauth2'
 
 
 class MicroPaymentConfig:
@@ -49,7 +49,7 @@ class MicroPaymentConfig:
         widget. If not specified here, it must be entered on payment basis.
 
         pay_type (str): The string representing the type of operation
-        ("Tip", "Pay", "Deposit" or "Donate").
+        ("Tip", "Pay", "Deposit", "Donate" or "OAuth").
 
         reference_code (str, optional): A custom code to be tracked by the
         TPA. It's sent back to the TPA in the specified callback. It could be
@@ -96,14 +96,14 @@ class MicroPaymentCustomization:
     hash with the intended fields would give the same results.
 
     Attributes:
-        login_cellphone_header_title+ (str, optional): Text to appear in the
+        login_cellphone_header_title (str, optional): Text to appear in the
         login screen. Default: "Support content creators by sending them bits.
         New users receive 50 bits to get started!"
 
-        predefined_pay_values+ (str, optional): A string of comma separated
+        predefined_pay_values (str, optional): A string of comma separated
         amount values, e.g. "1,5,10".
 
-        button_css+ (str, optional): optional CSS button customization
+        button_css (str, optional): optional CSS button customization
         ("red" | "grey").
     """
     def __init__(self, login_cellphone_header_title="",
